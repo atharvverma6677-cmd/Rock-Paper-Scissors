@@ -3,7 +3,10 @@ let computerScore = 0;
 
 function play(userChoice) {
 
-  document.getElementById("clickSound").play();
+  // CLICK SOUND (safe play)
+  const clickSound = document.getElementById("clickSound");
+  clickSound.currentTime = 0;
+  clickSound.play().catch(() => {});
 
   const choices = ["rock", "paper", "scissors"];
   const computerChoice = choices[Math.floor(Math.random() * 3)];
@@ -15,18 +18,26 @@ function play(userChoice) {
 
   if (userChoice === computerChoice) {
     result = "It's a Draw!";
-  } else if (
+  } 
+  else if (
     (userChoice === "rock" && computerChoice === "scissors") ||
     (userChoice === "paper" && computerChoice === "rock") ||
     (userChoice === "scissors" && computerChoice === "paper")
   ) {
     result = "You Win! 🎉";
     userScore++;
-    document.getElementById("winSound").play();
-  } else {
+
+    const winSound = document.getElementById("winSound");
+    winSound.currentTime = 0;
+    winSound.play().catch(() => {});
+  } 
+  else {
     result = "Computer Wins! 🤖";
     computerScore++;
-    document.getElementById("loseSound").play();
+
+    const loseSound = document.getElementById("loseSound");
+    loseSound.currentTime = 0;
+    loseSound.play().catch(() => {});
   }
 
   document.getElementById("result").innerText = result;
@@ -37,6 +48,7 @@ function play(userChoice) {
 function resetGame() {
   userScore = 0;
   computerScore = 0;
+
   document.getElementById("user-score").innerText = 0;
   document.getElementById("computer-score").innerText = 0;
   document.getElementById("result").innerText = "Make your move!";
